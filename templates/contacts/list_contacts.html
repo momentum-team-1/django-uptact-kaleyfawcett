@@ -8,19 +8,23 @@
 <div class="flex flex-wrap">
   {% for contact in contacts %}
   <div class="w-33 pa3">
-    <h2>{{ contact.name }}</h2>
-    <h3>{{ contact.birthday }}</h3>
+    <h2><a href="{% url 'show_contact' pk=contact.pk %}">{{ contact.name }}</a></h2>
 
+    {% for address in contact.addresses.all %}
     <div class="flex">
       <div class="pr2"><i class="icofont-location-pin"></i></div>
       <div>
-        {{ contact.address_1 }}<br />
-        {% if contact.address_2 %}
-          {{ contact.address_2 }}<br />
+        {% if address.address_type %}
+        <strong>{{ address.address_type }}</strong><br />
         {% endif %}
-        {{ contact.city }}, {{ contact.state }} {{ contact.zip_code }}
+        {{ address.line_1 }}<br />
+        {% if address.line_2 %}
+          {{ address.line_2 }}<br />
+        {% endif %}
+        {{ address.city }}, {{ address.state }} {{ address.zip_code }}
       </div>
     </div>
+    {% endfor %}
 
     {% if contact.phone_number %}
     <div class="flex">
@@ -36,11 +40,19 @@
     </div>
     {% endif %}
 
+    {% if contact.birthday %}
+    <div class="flex">
+      <div class="pr2"><i class="period"></i></div>
+      <div>{{ contact.birthday|date:"m-d-Y" }}</div>
+    </div>
+    {% endif %}
+
+
     <p>
-      <a href="{% url 'edit_contact' pk=contact.pk %}">Edit Contact</a><br>    
+      <a href="{% url 'edit_contact' pk=contact.pk %}">Edit Contact</a><br>
       <a class="red" href="{% url 'delete_contact' pk=contact.pk %}">Delete Contact</a>
     </p>
   </div>
   {% endfor %}
-</div>  
+</div>
 {% endblock %}
