@@ -62,11 +62,11 @@ def add_note(request, contact_pk):
         form = NoteForm(data=request.POST)
         if form.is_valid():
             note = form.save(commit=False)
-            note.name = contact
+            note.contact = contact
             note.save()
-            return redirect(to='list_contacts')
+            return redirect(to='show_contact', pk=contact_pk)
             
-    return render(request, "contacts/add_note.html", {
+    return render(request, "contacts/add_notes.html", {
         "form": form,
         "contact": contact
         })
