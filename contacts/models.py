@@ -24,10 +24,10 @@ class Contact(models.Model):
 
 
 
-class Notes(models.Model):
+class Note(models.Model):
     contact = models.ForeignKey(to=Contact,
                                 on_delete=models.CASCADE,
-                                related_name="note")
+                                related_name="notes")
     text = models.CharField(max_length=1500, null=True, blank =True) 
     time = models.DateTimeField(auto_now_add=True)
 
